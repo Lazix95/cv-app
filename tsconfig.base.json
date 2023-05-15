@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@cv-app/shared/shared-fnc": ["packages/shared/shared-fnc/src/index.ts"],
+      "@cv-app/shared/shared-hoc": ["packages/shared/shared-hoc/src/index.ts"],
+      "@cv-app/shared/shared-ui": ["packages/shared/shared-ui/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
