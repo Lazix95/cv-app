@@ -79,8 +79,8 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.runner }} nx export web-app
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
-#        with:
-#          path: ./out
+        with:
+          path: ./dist/web-app/export
 
   # Deployment job
   deploy:
@@ -93,5 +93,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
-        with:
-          folder: ./dist/web-app/export
