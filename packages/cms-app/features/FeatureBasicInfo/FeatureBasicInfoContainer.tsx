@@ -1,4 +1,4 @@
-import {SharedHeading, SharedGridContainer, SharedGridItem} from "@cv-app/shared/shared-ui";
+import {SharedHeading, SharedGridContainer, SharedGridItem, SharedGridInput} from "@cv-app/shared/shared-ui";
 
 export function FeatureBasicInfoContainer() {
   return (
@@ -7,9 +7,9 @@ export function FeatureBasicInfoContainer() {
        <SharedGridItem>
          Basic Info
        </SharedGridItem>
+
+       <SharedGridInput  />
       </SharedHeading>
     </SharedGridContainer>
   );
 }
-
-export default FeatureBasicInfoContainer;

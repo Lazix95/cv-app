@@ -1,4 +1,4 @@
-import FeatureBasicInfoContainer from "../featureGroups/FeatureBasicInfo/FeatureBasicInfoContainer"
+import {FeatureBasicInfoContainer} from "../features/FeatureBasicInfo/FeatureBasicInfoContainer"
 
 export default FeatureBasicInfoContainer;
 

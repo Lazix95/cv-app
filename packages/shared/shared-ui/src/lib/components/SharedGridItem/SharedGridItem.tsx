@@ -1,9 +1,8 @@
-import { Grid } from "@mui/material";
-import { ReactNode } from "react";
+import { Grid, GridProps } from "@mui/material";
 
-export function SharedGridItem({children}: {children: ReactNode}) {
+export function SharedGridItem({children, ...rest}: GridProps) {
   return (
-    <Grid>
+    <Grid item={true} {...rest}>
       {children}
     </Grid>
   )
