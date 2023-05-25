@@ -1,8 +1,22 @@
 import { Grid, GridProps } from "@mui/material";
 
-export function SharedGridItem({children, ...rest}: GridProps) {
+type CustomPops = {
+  centerText?: boolean,
+}
+
+type SharedGridItemProps = CustomPops & GridProps;
+
+interface Optionals {
+  readonly textAlign?: 'center';
+}
+
+export function SharedGridItem({children, centerText, ...rest}: SharedGridItemProps) {
+  const optionals: Optionals = {
+    ...(centerText && {textAlign: 'center'}),
+  }
+
   return (
-    <Grid item={true} {...rest}>
+    <Grid item xs={'auto'} {...rest} {...optionals}>
       {children}
     </Grid>
   )

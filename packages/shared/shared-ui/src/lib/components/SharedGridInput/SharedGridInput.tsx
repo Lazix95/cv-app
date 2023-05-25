@@ -5,8 +5,8 @@ import { SharedGridItem } from "../SharedGridItem/SharedGridItem";
 
 export function SharedGridInput(props: TextFieldProps) {
     return (
-        <SharedGridItem xs={12}>
-            <TextField value={props.value} onChange={props.onChange}/>
+        <SharedGridItem xs={6} md={4} lg={3}>
+            <TextField fullWidth {...props} size="small" variant={"outlined"}/>
         </SharedGridItem>
     )
 }

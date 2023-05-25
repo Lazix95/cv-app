@@ -1,20 +1,31 @@
 import {ReactNode} from "react";
 import Grid from "@mui/material/Grid";
+import { GridProps } from '@mui/material';
 
-interface SharedGridContainerProps {
+type CustomGridContainerProps = {
   readonly children: ReactNode;
   readonly centerX?: boolean;
   readonly centerY?: boolean;
+  readonly column?: boolean;
 }
 
-export function SharedGridContainer({children, centerX, centerY}: SharedGridContainerProps) {
-  const optionals = {
+type SharedGridContainerProps = CustomGridContainerProps & GridProps;
+
+interface Optionals {
+  justifyContent?: string,
+  alignItems?: string,
+  direction?: 'column'
+}
+
+export function SharedGridContainer({children, centerX = true, centerY, column, spacing = 3, mt = 0, mb = 3, ...rest}: SharedGridContainerProps) {
+  const optionals: Optionals = {
     ...(centerX && {justifyContent: 'center'}),
-    ...(centerY && {alignItems: 'center'})
+    ...(centerY && {alignItems: 'center'}),
+    ...(column && {direction: 'column'})
   }
 
   return (
-    <Grid container {...optionals}>
+    <Grid container spacing={spacing} mt={mt} mb={mb} {...rest} {...optionals}>
       {children}
     </Grid>
   )

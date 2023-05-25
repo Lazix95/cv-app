@@ -1,22 +1,30 @@
+import {useState} from 'react';
 import { AppProps } from 'next/app';
-import Head from 'next/head';
 import './globalStyles.scss'
-import {SharedMainLayout} from "@cv-app/shared/shared-ui";
+import {SharedDrawer, SharedHead, SharedMainLayout, SharedNamedChild, SharedThemeProvider} from "@cv-app/shared/shared-ui";
 import {Fragment} from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import * as React from "react";
-import {SharedThemeProvider} from "../../shared/shared-ui/src/lib/components/SharedThemeProvider/SharedThemeProvider";
+import { Breakpoint } from '@mui/material';
 
+export interface CustomAppProps {
+  maxWidth: Breakpoint | false;
+}
 
-function CustomApp({ Component, pageProps }: AppProps) {
+function CustomApp({ Component, pageProps }: AppProps<CustomAppProps>) {
+  const [drawerActive, setDrawerActive] = useState(false);
+
   return (
     <Fragment>
-      <Head>
-        <title>Welcome to cms-app!</title>
-      </Head>
+      <SharedHead title="Welcome to Sevenarch!"/>
+
       <SharedThemeProvider mode={"light"}>
         <CssBaseline />
-        <SharedMainLayout>
+        <SharedMainLayout maxWidth={pageProps.maxWidth} onDrawerChange={setDrawerActive}>
+
+          <SharedNamedChild name='drawer'>
+            <SharedDrawer value={drawerActive} onChange={setDrawerActive}/>
+          </SharedNamedChild>
+
           <Component {...pageProps} />
         </SharedMainLayout>
       </SharedThemeProvider>

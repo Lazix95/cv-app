@@ -1,77 +1,103 @@
-import * as React from 'react';
+import React from 'react';
+import {Fragment, ReactNode} from 'react';
 import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 import Container from '@mui/material/Container';
-import {Fragment, ReactNode} from "react";
+import MenuIcon from '@mui/icons-material/Menu';
 import {SharedDefaultFooter} from "../../components/SharedDefaultFooter/SharedDefaultFooter";
+import { Breakpoint, IconButton } from '@mui/material';
+import { SharedHocIf } from 'packages/shared/shared-hoc/src/lib/SharedHocIf';
+import { SharedDrawer } from '../../components/SharedDrawer/SharedDrawer';
+import { getNamedChild } from '@cv-app/shared/shared-fnc';
+import Drawer from '@mui/material/Drawer';
 
-function UpperNavList() {
-  return (
-    <Fragment>
-      <Button href="#" color="inherit" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
-        Projects
-      </Button>
-      <Button color="inherit" href="#" sx={{ my: 1, mx: 1.5 }}>
-        Features
-      </Button>
-      <Button color="inherit" href="#" sx={{ my: 1, mx: 1.5 }}>
-        Enterprise
-      </Button>
-      <Button color="inherit" href="#" sx={{ my: 1, mx: 1.5 }}>
-        Support
-      </Button>
-    </Fragment>
-  )
+// function UpperNavList() {
+//   return (
+//     <Fragment> 
+//       <SharedLink label='Basic Info' href='/'/>
+//       <SharedLink label='Projects' href="/projects" />
+//     </Fragment>
+//   )
+// }
+
+// function LowerNavList1() {
+//   return (
+//     <Fragment>
+//       <SharedLink href='/' label='Basic Info' type="link" sx={{pl: 0}}/>
+//       <SharedLink href='/projects' label="Projects" type="link" />
+//       <SharedLink href='#' label='News' type="link"/>
+//       <SharedLink href='#' label='Carrers' type="link"/>
+//       <SharedLink href='#' label='Contact' type="link"/>
+//     </Fragment>
+//   )
+// }
+
+interface NamedChildProps {
+  name: string;
+  children: ReactNode;
 }
 
-function LowerNavList() {
+interface SharedMainLayoutProps {
+  readonly children: ReactNode;
+  readonly maxWidth?: Breakpoint | false;
+  readonly drawerValue?: boolean;
+  readonly onDrawerChange?: (state: boolean) => void;
+  readonly Footer?: () => JSX.Element;
+  readonly UpperNavList?: (() => JSX.Element) | undefined;
+  readonly LowerNavList?: (() => JSX.Element) | undefined;
+  readonly Drawer?: (() => JSX.Element) | undefined;
+  }
+
+export function SharedMainLayout({children, Footer = SharedDefaultFooter, UpperNavList, LowerNavList, ...rest } : SharedMainLayoutProps) {
+  const Drawer = getNamedChild(children, 'drawer');
+
+  const showUpper = UpperNavList !== undefined;
+  const showLower = LowerNavList !== undefined;
+  const showDrawer = Drawer !== undefined;
+
+  const namedChild2 = React.Children.toArray(children).find(
+    (child) => React.isValidElement(child) && child.props.name === 'namedChild2'
+  ) as React.ReactElement<NamedChildProps>;
+
+  function handleDrawerChange(state: boolean) {
+    rest.onDrawerChange?.(state);
+  }
+
   return (
     <Fragment>
-      <Link color="inherit" noWrap variant="body2"  href="#" sx={{ p: 1, flexShrink: 0 }}>
-        Projects
-      </Link>
-      <Link color="inherit" noWrap variant="body2"  href="#" sx={{ p: 1, flexShrink: 0 }}>
-        People
-      </Link>
-      <Link color="inherit" noWrap variant="body2"  href="#" sx={{ p: 1, flexShrink: 0 }}>
-        News
-      </Link>
-      <Link color="inherit" noWrap variant="body2"  href="#" sx={{ p: 1, flexShrink: 0 }}>
-        Careers
-      </Link>
-      <Link color="inherit" noWrap variant="body2"  href="#" sx={{ p: 1, flexShrink: 0 }}>
-        Contact
-      </Link>
-    </Fragment>
-  )
-}
-
-export function SharedMainLayout({children, Footer = SharedDefaultFooter} : {children: ReactNode, Footer?: () => JSX.Element}) {
-  return (
-    <React.Fragment>
       <AppBar position={"sticky"} elevation={2} sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
         <Toolbar sx={{ flexWrap: 'wrap', borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
           <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
             Company name
           </Typography>
+
+          <SharedHocIf RIf={showUpper}>
           <nav>
-            <UpperNavList/>
+            {showUpper && <UpperNavList/>}
           </nav>
+          </SharedHocIf>
+
+          <SharedHocIf RIf={showDrawer}>
+          <IconButton color="inherit" aria-label="open drawer" edge="end" onClick={() => handleDrawerChange(!rest.drawerValue)}>
+            <MenuIcon />
+          </IconButton>
+            {showDrawer && Drawer}
+          </SharedHocIf>
         </Toolbar>
-        <Container maxWidth="md">
+
+        <SharedHocIf RIf={showLower}>
         <Toolbar component="nav" variant="dense" sx={{ justifyContent: 'space-between', overflowX: 'auto' }}>
           <nav>
-            <LowerNavList/>
+            {showLower && <LowerNavList/>}
           </nav>
         </Toolbar>
-        </Container>
+        </SharedHocIf>
+
       </AppBar>
 
       {/* Main view */}
-      <Container maxWidth="md" component="main" style={{paddingLeft: 0, paddingRight: 0}}>
+      <Container maxWidth={rest.maxWidth} component="main" style={{paddingLeft: 0, paddingRight: 0}}>
         {children}
       </Container>
 
@@ -79,6 +105,6 @@ export function SharedMainLayout({children, Footer = SharedDefaultFooter} : {chi
       <footer>
         <Footer/>
       </footer>
-    </React.Fragment>
+    </Fragment>
   );
 }

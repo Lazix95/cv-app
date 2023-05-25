@@ -1,15 +1,10 @@
-import {SharedHeading, SharedGridContainer, SharedGridItem, SharedGridInput} from "@cv-app/shared/shared-ui";
+import { setInitialPageProps } from "./../../utils/nextUtils";
+import { FeatureBasicInfoView } from "./FeatureBasicInfoView";
+
+setInitialPageProps(FeatureBasicInfoContainer, {maxWidth: 'xs'})
 
 export function FeatureBasicInfoContainer() {
   return (
-    <SharedGridContainer centerX>
-      <SharedHeading level={4}>
-       <SharedGridItem>
-         Basic Info
-       </SharedGridItem>
-
-       <SharedGridInput  />
-      </SharedHeading>
-    </SharedGridContainer>
+    <FeatureBasicInfoView/>
   );
 }
