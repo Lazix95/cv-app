@@ -29,14 +29,27 @@ ipcMain.handle('saveImage', async (event, { file, fileName }) => {
     return Promise.resolve({ success: true, data: { imagePath: saveImageRes.path } });
   } catch (err) {
     if (saveImageRes?.path) await removeFile(saveImage.path);
-    throw err;
+    return Promise.reject(err);
   }
 });
 
 ipcMain.handle('updateImage', async (event, { file, fileName }) => {
-  const res = await saveImage(file, basePath, fileName, { replace: true });
+  let saveImageRes;
+  try {
+    saveImageRes = await saveImage(file, basePath, fileName, { replace: true });
+    await addExportStatement(basePath, saveImageRes.name, 'images');
+    return Promise.resolve({ success: true, data: { imagePath: saveImageRes.path } });
+  } catch (error) {
+    if (saveImageRes?.path) await removeFile(saveImage.path);
+    return Promise.reject({ success: false, error });
+  }
 });
 
 ipcMain.handle('saveJson', async (event, { payload, fileName }) => {
-  const res = await saveOrUpdateJSON(basePath, fileName, payload);
+  try {
+    const data = await saveOrUpdateJSON(basePath, fileName, payload);
+    return Promise.resolve({ success: true, data });
+  } catch (error) {
+    return Promise.reject({ success: false, error });
+  }
 });

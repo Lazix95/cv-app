@@ -1,7 +1,7 @@
 import { DragEvent, Fragment, useState } from 'react';
 import classes from './SharedImageUpload.module.scss';
 import { SharedOutlinedContainer } from '../SharedOutlinedContainer/SharedOutlinedContainer';
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { SharedUploadFile } from '../SharedUploadFile/SharedUploadFile';
 import { SharedHocIf } from 'packages/shared/shared-hoc/src/lib/SharedHocIf';
 import { SharedGridBreak } from '../SharedGridBreak/SharedGridBreak';
@@ -39,20 +39,31 @@ export const SharedImageUpload = ({ onChange }: SharedImageUploadProps) => {
   }
 
   return (
-    <SharedOutlinedContainer centerText={true} label={'Drag Image'}>
-      <div onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave}>
-        <SharedHocIf RIf={!!image}>
-          <img src={image as string} alt="Uploaded" className={classes.image} />
-          <Button onClick={handleRemoveImage}>Remove Image</Button>
-        </SharedHocIf>
+    <SharedOutlinedContainer style={{ width: '100%' }} centerText={true} label={'Drag Image'}>
+      <div>
+        <div
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          style={{ aspectRatio: '16/9', width: '100%', height: '100%' }}
+        >
+          <Grid style={{ height: '100%' }} container alignContent={'center'}>
+            <Grid style={{ height: image ? '100%' : 'auto' }} item xs={12}>
+              <SharedHocIf RIf={!!image}>
+                <img src={image as string} alt="Uploaded" className={classes.image} />
+                <Button onClick={handleRemoveImage}>Remove Image</Button>
+              </SharedHocIf>
 
-        <SharedHocIf RIf={!image}>
-          <span>Drag and drop an image here</span>
-          <SharedGridBreak />
-          <span>or</span>
-          <SharedGridBreak />
-          <SharedUploadFile onChange={handleUploadImage} />
-        </SharedHocIf>
+              <SharedHocIf RIf={!image}>
+                <span>Drag and drop an image here</span>
+                <SharedGridBreak />
+                <span>or</span>
+                <SharedGridBreak />
+                <SharedUploadFile onChange={handleUploadImage} />
+              </SharedHocIf>
+            </Grid>
+          </Grid>
+        </div>
       </div>
     </SharedOutlinedContainer>
   );

@@ -10,7 +10,7 @@ exports.saveImage = async (base64String, basePath, imageName, { replace } = {}) 
   return Promise.resolve({ path: newImagePath, name: newName });
 };
 
-exports.saveOrUpdateJSON = (basePath, fileName, payload) => {
+exports.saveOrUpdateJSON = async (basePath, fileName, payload) => {
   const jsonBasePath = path.join(basePath, 'lib', 'json');
   const filePath = path.join(jsonBasePath, fileName);
   let data = {};
@@ -18,9 +18,9 @@ exports.saveOrUpdateJSON = (basePath, fileName, payload) => {
   createFoldersForBasePath(jsonBasePath);
 
   if (fs.existsSync(filePath)) {
-    const existingData = fs.readFileSync(filePath, 'utf8');
+    const existingData = await fs.promises.readFile(filePath, 'utf8');
     try {
-      data = JSON.parse(existingData);
+      if (existingData) data = JSON.parse(existingData);
     } catch (error) {
       console.error('Error parsing JSON file:', error);
       return;
@@ -29,7 +29,8 @@ exports.saveOrUpdateJSON = (basePath, fileName, payload) => {
 
   data = { ...data, ...payload };
   const updatedData = JSON.stringify(data, null, 2);
-  fs.writeFileSync(filePath, updatedData, 'utf8');
+  await fs.promises.writeFile(filePath, updatedData, 'utf8');
+  return Promise.resolve(data);
 };
 
 const generateUniqueImagePath = async (basePath, imageName, replace = false) => {

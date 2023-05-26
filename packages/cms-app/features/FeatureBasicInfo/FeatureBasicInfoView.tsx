@@ -5,11 +5,12 @@ import {
   SharedHeading,
   SharedImageUpload,
 } from '@cv-app/shared/shared-ui';
-import { saveImageToPublic } from './../../utils/electronUtils';
+import { saveImageToPublic, saveJsonData } from './../../utils/electronUtils';
 
 export function FeatureBasicInfoView() {
   async function handleImageUpload(file: File) {
-    const a = await saveImageToPublic(file);
+    //const a = await saveImageToPublic(file);
+    const a = await saveJsonData('landingPage.json', { test_2: 'first test 2' });
     console.log(a);
   }
 
@@ -24,6 +25,7 @@ export function FeatureBasicInfoView() {
       <SharedGridInput label={'Test Field 2'} />
       <SharedGridInput label={'Test Field 3'} />
 
+      <SharedImageUpload onChange={handleImageUpload} />
       <SharedImageUpload onChange={handleImageUpload} />
     </SharedGridContainer>
   );

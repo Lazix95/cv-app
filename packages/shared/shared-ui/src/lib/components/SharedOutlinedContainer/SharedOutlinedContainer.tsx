@@ -6,12 +6,13 @@ interface SharedOutlineContainerProps {
   children: ReactNode;
   centerText?: boolean;
   label: string;
+  style?: Record<string, unknown>;
 }
 
 const InputComponent = React.forwardRef<HTMLDivElement>((props, ref) => <div {...props} ref={ref} />);
-export const SharedOutlinedContainer = ({ children, label, centerText }: SharedOutlineContainerProps) => {
+export const SharedOutlinedContainer = ({ children, label, style }: SharedOutlineContainerProps) => {
   return (
-    <SharedGridItem centerText>
+    <SharedGridItem centerText style={style}>
       <TextField
         fullWidth={true}
         variant="outlined"
