@@ -9,15 +9,16 @@ export interface SharedDrawerItem {
 interface SharedDrawerItemListProps {
   items: SharedDrawerItem[];
   onHover?: (index: number) => void;
+  readonly selectedIndex?: number | null;
   dense?: boolean;
 }
 
-export function SharedDrawerItemList({ items, onHover, dense }: SharedDrawerItemListProps) {
+export function SharedDrawerDesktopListItem({ items, selectedIndex, onHover, dense }: SharedDrawerItemListProps) {
   return (
     <List>
       {items.map(({ label, Icon }, index) => (
         <ListItem key={label} disablePadding>
-          <ListItemButton dense={dense} onMouseEnter={() => onHover?.(index)}>
+          <ListItemButton selected={selectedIndex === index} dense={dense} onMouseEnter={() => onHover?.(index)}>
             {Icon && (
               <ListItemIcon>
                 <Icon />
