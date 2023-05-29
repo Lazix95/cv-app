@@ -1,3 +1,7 @@
-export { default as landingPage } from './lib/json/landingPage.json';
+import * as images from './images';
+import * as json from './json';
 
-export default { defaultExport: true };
+const content = { images: { ...images }, ...json };
+
+export type Content = typeof content;
+export default content;

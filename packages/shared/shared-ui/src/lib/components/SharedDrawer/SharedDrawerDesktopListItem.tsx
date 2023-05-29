@@ -1,10 +1,5 @@
-import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIcon } from '@mui/material';
-
-export interface SharedDrawerItem {
-  label: string;
-  Icon?: typeof SvgIcon;
-  subItems?: SharedDrawerItem[];
-}
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { SharedDrawerItem } from './SharedDrawer';
 
 interface SharedDrawerItemListProps {
   items: SharedDrawerItem[];

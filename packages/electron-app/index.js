@@ -16,6 +16,10 @@ function createWindow() {
   });
   mainWindow.loadURL('http://localhost:4200');
 
+  // mainWindow.loadURL(
+  //   'file://' + path.join(__dirname, '..', '..', 'dist', 'packages', 'cms-app', 'exported', 'index.html')
+  // );
+
   mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', function () {

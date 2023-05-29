@@ -1,11 +1,11 @@
 import React from 'react';
-import {Fragment, ReactNode} from 'react';
+import { Fragment, ReactNode } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import MenuIcon from '@mui/icons-material/Menu';
-import {SharedDefaultFooter} from "../../components/SharedDefaultFooter/SharedDefaultFooter";
+import { SharedDefaultFooter } from '../../components/SharedDefaultFooter/SharedDefaultFooter';
 import { Breakpoint, IconButton } from '@mui/material';
 import { SharedHocIf } from 'packages/shared/shared-hoc/src/lib/SharedHocIf';
 import { SharedDrawer } from '../../components/SharedDrawer/SharedDrawer';
@@ -14,7 +14,7 @@ import Drawer from '@mui/material/Drawer';
 
 // function UpperNavList() {
 //   return (
-//     <Fragment> 
+//     <Fragment>
 //       <SharedLink label='Basic Info' href='/'/>
 //       <SharedLink label='Projects' href="/projects" />
 //     </Fragment>
@@ -47,9 +47,15 @@ interface SharedMainLayoutProps {
   readonly UpperNavList?: (() => JSX.Element) | undefined;
   readonly LowerNavList?: (() => JSX.Element) | undefined;
   readonly Drawer?: (() => JSX.Element) | undefined;
-  }
+}
 
-export function SharedMainLayout({children, Footer = SharedDefaultFooter, UpperNavList, LowerNavList, ...rest } : SharedMainLayoutProps) {
+export function SharedMainLayout({
+  children,
+  Footer = SharedDefaultFooter,
+  UpperNavList,
+  LowerNavList,
+  ...rest
+}: SharedMainLayoutProps) {
   const Drawer = getNamedChild(children, 'drawer');
 
   const showUpper = UpperNavList !== undefined;
@@ -65,46 +71,46 @@ export function SharedMainLayout({children, Footer = SharedDefaultFooter, UpperN
   }
 
   return (
-    <Fragment>
-      <AppBar position={"sticky"} elevation={2} sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <AppBar position={'sticky'} elevation={2} sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
         <Toolbar sx={{ flexWrap: 'wrap', borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
           <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
             Company name
           </Typography>
 
           <SharedHocIf RIf={showUpper}>
-          <nav>
-            {showUpper && <UpperNavList/>}
-          </nav>
+            <nav>{showUpper && <UpperNavList />}</nav>
           </SharedHocIf>
 
           <SharedHocIf RIf={showDrawer}>
-          <IconButton color="inherit" aria-label="open drawer" edge="end" onClick={() => handleDrawerChange(!rest.drawerValue)}>
-            <MenuIcon />
-          </IconButton>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="end"
+              onClick={() => handleDrawerChange(!rest.drawerValue)}
+            >
+              <MenuIcon />
+            </IconButton>
             {showDrawer && Drawer}
           </SharedHocIf>
         </Toolbar>
 
         <SharedHocIf RIf={showLower}>
-        <Toolbar component="nav" variant="dense" sx={{ justifyContent: 'space-between', overflowX: 'auto' }}>
-          <nav>
-            {showLower && <LowerNavList/>}
-          </nav>
-        </Toolbar>
+          <Toolbar component="nav" variant="dense" sx={{ justifyContent: 'space-between', overflowX: 'auto' }}>
+            <nav>{showLower && <LowerNavList />}</nav>
+          </Toolbar>
         </SharedHocIf>
-
       </AppBar>
 
       {/* Main view */}
-      <Container maxWidth={rest.maxWidth} component="main" style={{paddingLeft: 0, paddingRight: 0}}>
+      <Container maxWidth={rest.maxWidth} component="main" style={{ paddingLeft: 0, paddingRight: 0, flexGrow: 1 }}>
         {children}
       </Container>
 
       {/* Footer */}
       <footer>
-        <Footer/>
+        <Footer />
       </footer>
-    </Fragment>
+    </div>
   );
 }

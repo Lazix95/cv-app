@@ -17,47 +17,19 @@ export interface CustomAppProps {
   maxWidth: Breakpoint | false;
 }
 
+const items = [
+  {
+    label: 'Basic Info',
+    Icon: InboxIcon,
+  },
+  {
+    label: 'Landing Page',
+    Icon: InboxIcon,
+  },
+];
+
 function CustomApp({ Component, pageProps }: AppProps<CustomAppProps>) {
   const [drawerActive, setDrawerActive] = useState(false);
-
-  const items = [
-    {
-      label: 'Test',
-      Icon: InboxIcon,
-      subItems: [
-        { label: 'Test a', Icon: InboxIcon },
-        { label: 'Test b', Icon: InboxIcon },
-        { label: 'Test c', Icon: InboxIcon },
-      ],
-    },
-    {
-      label: 'Test 2',
-      Icon: InboxIcon,
-      subItems: [
-        { label: 'Test 2 a', Icon: InboxIcon },
-        { label: 'Test 2 b', Icon: InboxIcon },
-        { label: 'Test 2 c', Icon: InboxIcon },
-      ],
-    },
-    {
-      label: 'Test 3',
-      Icon: InboxIcon,
-      subItems: [
-        { label: 'Test 3 a', Icon: InboxIcon },
-        { label: 'Test 3 b', Icon: InboxIcon },
-        { label: 'Test 3 c', Icon: InboxIcon },
-      ],
-    },
-    {
-      label: 'Test 4',
-      Icon: InboxIcon,
-      subItems: [
-        { label: 'Test 4 a', Icon: InboxIcon },
-        { label: 'Test 4 b', Icon: InboxIcon },
-        { label: 'Test 4 c', Icon: InboxIcon },
-      ],
-    },
-  ];
 
   return (
     <Fragment>
@@ -67,7 +39,13 @@ function CustomApp({ Component, pageProps }: AppProps<CustomAppProps>) {
         <CssBaseline />
         <SharedMainLayout maxWidth={pageProps.maxWidth} onDrawerChange={setDrawerActive}>
           <SharedNamedChild name="drawer">
-            <SharedDrawer items={items} value={drawerActive} onChange={setDrawerActive} />
+            <SharedDrawer
+              title={'Menu'}
+              items={items}
+              value={drawerActive}
+              showSubList={false}
+              onChange={setDrawerActive}
+            />
           </SharedNamedChild>
 
           <Component {...pageProps} />

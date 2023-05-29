@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@cv-app/shared/content": ["packages/shared/content/src/index.ts"],
-      "@cv-app/shared/content/server": ["packages/shared/content/src/server.ts"],
+      "@cv-app/shared/firebase": ["packages/shared/firebase/src/index.ts"],
       "@cv-app/shared/shared-fnc": ["packages/shared/shared-fnc/src/index.ts"],
       "@cv-app/shared/shared-hoc": ["packages/shared/shared-hoc/src/index.ts"],
       "@cv-app/shared/shared-ui": ["packages/shared/shared-ui/src/index.ts"]

@@ -1,27 +1,31 @@
-import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIcon } from '@mui/material';
+import {
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  SvgIcon,
+  Typography,
+} from '@mui/material';
 import { SharedHocIf } from 'packages/shared/shared-hoc/src/lib/SharedHocIf';
 import { Fragment } from 'react';
-
-export interface SharedDrawerItem {
-  label: string;
-  Icon?: typeof SvgIcon;
-  subItems?: SharedDrawerItem[];
-}
+import { SharedDrawerItem } from './SharedDrawer';
 
 interface SharedDrawerItemListProps {
-  items: SharedDrawerItem[];
-  onHover?: (index: number) => void;
-  dense?: boolean;
-  subItem?: boolean;
+  readonly showSubList?: boolean;
+  readonly items: SharedDrawerItem[];
+  readonly dense?: boolean;
+  readonly subItem?: boolean;
 }
 
-export function SharedDrawerMobileListItem({ items, onHover, dense }: SharedDrawerItemListProps) {
+export function SharedDrawerMobileListItem({ items, dense, showSubList }: SharedDrawerItemListProps) {
   return (
-    <List>
+    <List sx={{ pt: 0 }}>
       {items.map(({ label, Icon, subItems }, index) => (
         <Fragment key={`${label} - fragment`}>
           <ListItem key={label} disablePadding>
-            <ListItemButton dense={dense} onMouseEnter={() => onHover?.(index)}>
+            <ListItemButton dense={dense}>
               {Icon && (
                 <ListItemIcon>
                   <Icon />
@@ -31,20 +35,22 @@ export function SharedDrawerMobileListItem({ items, onHover, dense }: SharedDraw
             </ListItemButton>
           </ListItem>
 
-          {subItems?.map((subItem) => (
-            <ListItem style={{ paddingLeft: 15 }} key={subItem.label} disablePadding>
-              <ListItemButton dense onMouseEnter={() => onHover?.(index)}>
-                {subItem.Icon && (
-                  <ListItemIcon>
-                    <subItem.Icon />
-                  </ListItemIcon>
-                )}
-                <ListItemText primary={subItem.label} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-          <SharedHocIf RIf={index < items.length - 1}>
-            <Divider />
+          <SharedHocIf RIf={showSubList}>
+            {subItems?.map((subItem) => (
+              <ListItem style={{ paddingLeft: 15 }} key={subItem.label} disablePadding>
+                <ListItemButton dense>
+                  {subItem.Icon && (
+                    <ListItemIcon>
+                      <subItem.Icon />
+                    </ListItemIcon>
+                  )}
+                  <ListItemText primary={subItem.label} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+            <SharedHocIf RIf={index < items.length - 1}>
+              <Divider />
+            </SharedHocIf>
           </SharedHocIf>
         </Fragment>
       ))}
