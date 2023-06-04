@@ -2,7 +2,7 @@
 #
 # To get started with Next.js see: https://nextjs.org/docs/getting-started
 #
-name: Deploy Next.js site to Pages
+name: Deploy web-app site to Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -85,8 +85,8 @@ jobs:
   # Deployment job
   deploy:
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}-web-app
+      name: web-app
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:

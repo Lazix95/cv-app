@@ -2,4 +2,4 @@
 
 export * from './lib/SharedReactUtils';
 export * from './lib/SharedHelpers';
-export { useSharedContent, SaveContentPayload } from './lib/hooks/useSharedContent';
+export type { SaveContentPayload } from './lib/hooks/useSharedContent';
