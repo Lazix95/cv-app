@@ -74,19 +74,19 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} nx build cms-app
+        run: ${{ steps.detect-package-manager.outputs.runner }} nx build web-app
       - name: Static HTML export with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} nx export cms-app
+        run: ${{ steps.detect-package-manager.outputs.runner }} nx export web-app
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ./dist/packages/cms-app/exported
+          path: ./dist/packages/web-app/exported
 
   # Deployment job
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}-web-app
     runs-on: ubuntu-latest
     needs: build
     steps:
