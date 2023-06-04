@@ -1,5 +1,5 @@
 import React from 'react';
-import { Fragment, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -7,36 +7,8 @@ import Container from '@mui/material/Container';
 import MenuIcon from '@mui/icons-material/Menu';
 import { SharedDefaultFooter } from '../../components/SharedDefaultFooter/SharedDefaultFooter';
 import { Breakpoint, IconButton } from '@mui/material';
-import { SharedHocIf } from 'packages/shared/shared-hoc/src/lib/SharedHocIf';
-import { SharedDrawer } from '../../components/SharedDrawer/SharedDrawer';
 import { getNamedChild } from '@cv-app/shared/shared-fnc';
-import Drawer from '@mui/material/Drawer';
-
-// function UpperNavList() {
-//   return (
-//     <Fragment>
-//       <SharedLink label='Basic Info' href='/'/>
-//       <SharedLink label='Projects' href="/projects" />
-//     </Fragment>
-//   )
-// }
-
-// function LowerNavList1() {
-//   return (
-//     <Fragment>
-//       <SharedLink href='/' label='Basic Info' type="link" sx={{pl: 0}}/>
-//       <SharedLink href='/projects' label="Projects" type="link" />
-//       <SharedLink href='#' label='News' type="link"/>
-//       <SharedLink href='#' label='Carrers' type="link"/>
-//       <SharedLink href='#' label='Contact' type="link"/>
-//     </Fragment>
-//   )
-// }
-
-interface NamedChildProps {
-  name: string;
-  children: ReactNode;
-}
+import { SharedHocIf } from '@cv-app/shared/shared-hoc';
 
 interface SharedMainLayoutProps {
   readonly children: ReactNode;
@@ -49,22 +21,12 @@ interface SharedMainLayoutProps {
   readonly Drawer?: (() => JSX.Element) | undefined;
 }
 
-export function SharedMainLayout({
-  children,
-  Footer = SharedDefaultFooter,
-  UpperNavList,
-  LowerNavList,
-  ...rest
-}: SharedMainLayoutProps) {
+export function SharedMainLayout({ children, Footer = SharedDefaultFooter, UpperNavList, LowerNavList, ...rest }: SharedMainLayoutProps) {
   const Drawer = getNamedChild(children, 'drawer');
 
   const showUpper = UpperNavList !== undefined;
   const showLower = LowerNavList !== undefined;
   const showDrawer = Drawer !== undefined;
-
-  const namedChild2 = React.Children.toArray(children).find(
-    (child) => React.isValidElement(child) && child.props.name === 'namedChild2'
-  ) as React.ReactElement<NamedChildProps>;
 
   function handleDrawerChange(state: boolean) {
     rest.onDrawerChange?.(state);
@@ -83,12 +45,7 @@ export function SharedMainLayout({
           </SharedHocIf>
 
           <SharedHocIf RIf={showDrawer}>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="end"
-              onClick={() => handleDrawerChange(!rest.drawerValue)}
-            >
+            <IconButton color="inherit" aria-label="open drawer" edge="end" onClick={() => handleDrawerChange(!rest.drawerValue)}>
               <MenuIcon />
             </IconButton>
             {showDrawer && Drawer}

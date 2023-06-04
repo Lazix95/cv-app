@@ -12,4 +12,3 @@ export { SharedDrawer } from './lib/components/SharedDrawer/SharedDrawer';
 export { SharedHead } from './lib/components/SharedHead/SharedHead';
 export { SharedImageUpload } from './lib/components/SharedImageUpload/SharedImageUpload';
 export { SharedOutlinedContainer } from './lib/components/SharedOutlinedContainer/SharedOutlinedContainer';
-export { SharedContentImage } from './lib/components/SharedContentImage/SharedContentImage';

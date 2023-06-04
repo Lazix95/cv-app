@@ -7,6 +7,17 @@ const { composePlugins, withNx } = require('@nx/next');
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
 const nextConfig = {
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+        port: '',
+        pathname: '**',
+      },
+    ],
+  },
   // assetPrefix: './', // enable this on build, but disable for development
   nx: {
     // Set this to true if you would like to use SVGR
